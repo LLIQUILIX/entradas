@@ -1,0 +1,234 @@
+{% extends 'plantilla.html' %} {% load static %} {% block content %}
+
+<section id="hero" class="hero section dark-background">
+  <img
+    src="{% static 'tema/assets/img/img2.jpeg' %}"
+    class="img-fluid"
+    alt="Evento UTC"
+    data-aos="fade-in"
+  />
+
+  <div
+    class="container d-flex flex-column align-items-center justify-content-center text-center"
+    data-aos="fade-up"
+    data-aos-delay="100"
+  >
+    <h2>UTC eventos</h2>
+    <p>
+      <span
+        class="typed"
+        data-typed-items="Robotica, Electricidad, Programacion"
+      ></span>
+    </p>
+    <p>
+      <a href="{% url 'listarEntradas' %}" class="btn btn-secondary stretched-link">reservar entrada</a>
+    </p>
+  </div>
+</section>
+
+<!-- /Hero Section -->
+
+
+
+
+  <main class="main content flex-fill container py-5">
+    <!-- Page Title -->
+    <div class="page-title" data-aos="fade">
+      <div
+        class="container d-lg-flex justify-content-between align-items-center"
+      >
+        <h1 class="mb-2 mb-lg-0 text-center">Eventos Disponibles</h1>
+      </div>
+    </div>
+    <!-- End Page Title -->
+
+    <!-- Portfolio Details Section -->
+    <section id="portfolio-details" class="portfolio-details section" style="margin: 0; padding: 0; height: 600px;" >
+      <div class="container align-items-center" data-aos="fade-up">
+        <div class="portfolio-details-slider swiper init-swiper">
+          <script type="application/json" class="swiper-config">
+            {
+              "loop": true,
+              "speed": 600,
+              "autoplay": {
+                "delay": 5000
+              },
+              "slidesPerView": "auto",
+              "navigation": {
+                "nextEl": ".swiper-button-next",
+                "prevEl": ".swiper-button-prev"
+              },
+              "pagination": {
+                "el": ".swiper-pagination",
+                "type": "bullets",
+                "clickable": true
+              }
+            }
+          </script>
+          <div class="swiper-wrapper align-items-center">
+            <div class="swiper-slide">
+              <img src="{% static 'tema/assets/img/EventoUTC.png' %}" alt="" />
+            </div>
+
+            <div class="swiper-slide">
+              <img src="{% static 'tema/assets/img/img1.png' %}" alt="" />
+            </div>
+
+            <div class="swiper-slide">
+              <img
+                src="{% static 'tema/assets/img/img5.jpg' %}"
+                alt=""
+                style="width: 30%; align-items: center"
+              />
+            </div>
+          </div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          
+        </div>
+      </div>
+    </section>
+    <!-- /Portfolio Details Section -->
+  </main>
+<div class="text-center mb-5">
+            <h2 class="fw-bold">Disponibilidad en Tiempo Real</h2>
+            <hr class="w-25 mx-auto text-success">
+        </div>
+<section id="stats" class="stats section accent-background">
+  <img
+    src="{% static 'tema/assets/img/stats-bg.jpg' %}"
+    alt=""
+    data-aos="fade-in"
+  />
+  <div
+    class="container position-relative"
+    data-aos="fade-up"
+    data-aos-delay="100"
+  >
+    <div class="row gy-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span
+            data-purecounter-start="0"
+            data-purecounter-end="{{ total_clientes }}"
+            data-purecounter-duration="1"
+            class="purecounter"
+          ></span>
+          <p>Clientes Registrados</p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span
+            data-purecounter-start="0"
+            data-purecounter-end="{{ total_eventos }}"
+            data-purecounter-duration="1"
+            class="purecounter"
+          ></span>
+          <p>Eventos Activos</p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="stats-item text-center w-100 h-100">
+          <span
+            data-purecounter-start="0"
+            data-purecounter-end="{{ total_entradas }}"
+            data-purecounter-duration="1"
+            class="purecounter"
+          ></span>
+          <p>Entradas Vendidas</p>
+        </div>
+      </div>
+    </div>
+    <div class="text-center">
+        
+        <a href="{% url 'reporte_ventas' %}" class="btn btn-light stretched-link">Generar reporte</a>
+        
+    </div>
+     
+  </div>
+</section>
+
+<section  class="py-5 bg-light">
+        <div class="row g-4">
+            {% for e in eventos %}
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm border-0">
+                    {% if e.foto %}
+                        <img src="{{ e.foto.url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">{{ e.nombre }}</h5>
+                        <p class="text-muted small"><i class="bi bi-calendar"></i> {{ e.fecha|date:"d M, Y" }}</p>
+                        
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="small fw-bold">CUPOS:</span>
+                                <span class="badge bg-success">{{ e.disponibles }} libres</span>
+                            
+                        </div>
+
+                      
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                        <a href="{% url 'nuevaEntrada' %}" class="btn btn-outline-primary w-100 ">Reservar Ahora
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+   
+</section>
+
+
+<section class="py-5 bg-light main content flex-fill container py-5">
+ 
+    <table id="tabla_disponibilidad" class="table table-striped table-hover w-100">
+        <thead class="table-dark">
+            <tr>
+                <th>Imagen</th>
+                <th>Nombre del Evento</th>
+                <th>Fecha</th>
+                <th>Cupos Libres</th>
+                <th class="text-center">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in eventos %}
+            <tr>
+                <td class="text-center">
+                    {% if e.foto %}
+                        <img src="{{ e.foto.url }}" class="rounded" style="width: 120px; height: 80px; object-fit: cover;">
+                    {% else %}
+                        <span class="text-muted small">Sin foto</span>
+                    {% endif %}
+                </td>
+                <td class="fw-bold">{{ e.nombre }}</td>
+                <td>{{ e.fecha|date:"d/m/Y" }} {{ e.hora_inicio }} </td>
+                <td>
+                    {% if e.disponibles <= 0 %}
+                        <span class="badge bg-danger w-100">Agotado</span>
+                    {% elif e.disponibles <= 10 %}
+                        <span class="badge bg-warning text-dark w-100">¡Solo {{ e.disponibles }}!</span>
+                    {% else %}
+                        <span class="badge bg-success w-100">{{ e.disponibles }} disponibles</span>
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    <a href="{% url 'listarEntradas' %}" class="btn btn-primary btn-sm {% if e.disponibles <= 0 %}disabled{% endif %}">
+                        <i class="bi bi-ticket"></i> Reservar
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+                   
+</section>
+<script>$(document).ready(function () {
+    $('#tabla_disponibilidad').DataTable({
+        responsive: true,
+       
+    });
+});</script>
+{% endblock %}

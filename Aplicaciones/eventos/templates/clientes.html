@@ -1,0 +1,78 @@
+{% extends 'plantilla.html' %} {% block content %}
+<main id="main-content" class="flex-fill container py-5">
+  <h2 class="text-center fw-bold">Listado de Clientes</h2>
+
+  <a href="{% url 'nuevoCliente' %}" class="btn btn-success mb-3"
+    >Nuevo Cliente</a
+  >
+
+  <table id="tabla_clientes" class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>email</th>
+        <th>telefono</th>
+
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in clientes %}
+      <tr>
+        <td>{{c.nombre }}</td>
+        <td>{{c.email }}</td>
+        <td>{{c.telefono }}</td>
+
+        <td>
+          <a
+            href="{% url 'editarCliente' id=c.id %}"
+            class="btn btn-warning btn-sm"
+            >Editar</a
+          >
+          <a
+            href="{% url 'eliminarCliente' id=c.id %}"
+            class="btn btn-danger btn-sm"
+            onclick="return confirm('¿Estás seguro de eliminar a {{ c.nombre }}?');"
+            >Eliminar</a
+          >
+        </td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+</main>
+{% endblock %} {% block scripts %}
+<script>
+  $(document).ready(function () {
+    new DataTable("#tabla_clientes", {
+      layout: {
+        topStart: {
+          buttons: [
+            {
+              extend: "copyHtml5",
+              className: "btn btn-secondary btn-sm mr-2",
+              exportOptions: { columns: ":not(:last-child)" },
+            },
+            {
+              extend: "excelHtml5",
+              className: "btn btn-success btn-sm mr-2 ",
+              exportOptions: { columns: ":not(:last-child)" },
+            },
+            {
+              extend: "csvHtml5",
+              className: "btn btn-info btn-sm mr-2",
+              exportOptions: { columns: ":not(:last-child)" },
+            },
+            {
+              extend: "pdfHtml5",
+              className: "btn btn-danger btn-sm  ",
+              exportOptions: { columns: ":not(:last-child)" },
+            },
+          ],
+        },
+      },
+    });
+  });
+</script>
+{% endblock %}

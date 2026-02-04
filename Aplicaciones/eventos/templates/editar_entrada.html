@@ -1,0 +1,64 @@
+{% extends 'plantilla.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-0 mt-4">
+            <div class="card-header bg-primary text-white text-center">
+                <h4 class="mb-0 text-white"><i class="bi bi-pencil-square text-white"></i> Editar Entrada</h4>
+            </div>
+            <div class="card-body p-4">
+                <form action="{% url 'actualizarEntrada' %}" method="POST" id="form_editar_entrada">
+                    {% csrf_token %}
+                    
+                    <input type="hidden" name="id_unico" value="{{ entrada.id_unico }}">
+
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Seleccionar Evento:</label>
+                        <select name="evento" id="evento" class="form-select" required>
+                            {% for e in eventos %}
+                                <option value="{{ e.id }}" {% if e.id == entrada.evento.id %}selected{% endif %}>
+                                    {{ e.nombre }} (Disponibles: {{ e.entradas_disponibles }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label font-weight-bold">Seleccionar Cliente:</label>
+                        <select name="cliente" id="cliente" class="form-select" required>
+                            {% for c in clientes %}
+                                <option value="{{ c.id }}" {% if c.id == entrada.cliente.id %}selected{% endif %}>
+                                    {{ c.nombre }} ({{ c.email }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Actualizar Datos</button>
+                        <a href="{% url 'listarEntradas' %}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        $("#form_editar_entrada").validate({
+            rules: {
+                evento: { required: true },
+                cliente: { required: true }
+            },
+            messages: {
+                evento: "Debe seleccionar un evento para vender la entrada.",
+                cliente: "Debe seleccionar al cliente que realiza la compra."
+            },
+          
+        });
+    });
+</script>
+{% endblock %}

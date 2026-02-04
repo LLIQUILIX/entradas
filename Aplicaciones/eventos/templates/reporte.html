@@ -1,0 +1,83 @@
+{% extends 'plantilla.html' %} {% block content %}
+<main id="main-content" class="flex-fill container py-5">
+<h2 class="text-center mb-4 fw-bold">Reporte General de Ventas por Evento</h2>
+
+
+    <table id="tabla_reporte" class="table table-bordered table-striped">
+      <thead class="table">
+        <tr>
+          <th>Evento</th>
+          <th>Fecha</th>
+          <th>Entradas Vendidas</th>
+          <th>Entradas disponibles</th>
+          <th>Precio Unitario</th>
+          <th>estado</th>
+          <th>Total Recaudado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in reporte %}
+        <tr>
+          <td>{{ e.nombre }}</td>
+          <td>{{ e.fecha|date:"d/m/Y" }}</td>
+          <td class="text-center">{{ e.entradas_vendidas|default:0 }}</td>
+          <td class="text-center">{{ e.entradas_disponibles }}</td>
+          <td>{{ e.precio }} $</td>
+          
+          <td>
+                    {% if e.entradas_disponibles <= 0 %}
+                        <span class="badge bg-danger w-100">Agotado</span>
+                    {% elif e.entradas_disponibles <= 10 %}
+                        <span class="badge bg-warning text-dark w-100">¡Solo {{ e.entradas_disponibles }}!</span>
+                    {% else %}
+                        <span class="badge bg-success w-100">{{ e.entradas_disponibles }} disponibles</span>
+                    {% endif %}
+                </td>
+          <td class="fw-bold text-success">
+            {% if e.total_recaudado %}
+                {{ e.total_recaudado|floatformat:2 }} $
+            {% else %}
+                0.00 $
+            {% endif %}
+         </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</main>
+    {% endblock %} {% block scripts %}
+    <script>
+      $(document).ready(function () {
+        new DataTable("#tabla_reporte", {
+          layout: {
+            topStart: {
+              buttons: [
+                {
+                  extend: "copyHtml5",
+                  className: "btn btn-secondary btn-sm mr-2",
+                  
+                },
+                {
+                  extend: "excelHtml5",
+                  className: "btn btn-success btn-sm mr-2 ",
+                  
+                },
+                {
+                  extend: "csvHtml5",
+                  className: "btn btn-info btn-sm mr-2",
+                  
+                },
+                {
+                  extend: "pdfHtml5",
+                  className: "btn btn-danger btn-sm  ",
+                  
+                },
+              ],
+            },
+          },
+        });
+      });
+    </script>
+    {% endblock %}
+  </div>
+</div>

@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - UTC Eventos</title>
+
+    <link href="{% static 'tema/assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'tema/assets/css/main.css' %}" rel="stylesheet">
+</head>
+<body class="d-flex align-items-center justify-content-center vh-100 bg-light">
+
+    <div class="card shadow p-4" style="width: 380px;">
+        <h4 class="text-center mb-3">Iniciar Sesión</h4>
+
+        {% if form.errors %}
+            <div class="alert alert-danger text-center">
+                Usuario o contraseña incorrectos
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div class="d-grid mt-3">
+                <button type="submit" class="btn btn-success">Entrar</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

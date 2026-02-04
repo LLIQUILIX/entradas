@@ -1,0 +1,80 @@
+{% extends 'plantilla.html' %} {% block content %}
+<main id="main-content" class="flex-fill container py-5">
+  <h3 class="text-center fw-bold">Entradas para Eventos</h3>
+  <br />
+  <a href="{% url 'nuevaEntrada' %}" class="btn btn-success">Vender Entrada</a>
+
+  <div class="justify-content-center">
+    <br />
+    <table id="tabla_entradas" class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Código Único (UUID)</th>
+          <th>Evento</th>
+          <th>Cliente</th>
+          <th>Fecha de Compra</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entrada in entradas %}
+        <tr>
+          <td><code>{{ entrada.id_unico }}</code></td>
+          <td>{{ entrada.evento.nombre }}</td>
+          <td>{{ entrada.cliente.nombre }}</td>
+          <td>{{ entrada.fecha_compra|date:"d/m/Y H:i" }}</td>
+          <td class="text-center">
+            <a
+              href="{% url 'editarEntrada' entrada.id_unico %}"
+              class="btn btn-warning btn-sm"
+            >
+              Editar
+            </a>
+            <a
+              href="{% url 'eliminarEntrada' entrada.id_unico %}"
+              class="btn btn-danger btn-sm"
+              onclick="return confirm('¿Estás seguro de anular la entrada de {{ entrada.cliente.nombre }}?');"
+            >
+              Eliminar
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</main>
+{% endblock %} {% block scripts %}
+<script>
+  $(document).ready(function () {
+    new DataTable("#tabla_entradas", {
+      layout: {
+        topStart: {
+          buttons: [
+            {
+              extend: "copyHtml5",
+              className: "btn btn-secondary btn-sm mr-2",
+              exportOptions: { columns: ":not(:last-child)" },
+            },
+            {
+              extend: "excelHtml5",
+              className: "btn btn-success btn-sm mr-2 ",
+              exportOptions: { columns: ":not(:last-child)" },
+            },
+            {
+              extend: "csvHtml5",
+              className: "btn btn-info btn-sm mr-2",
+              exportOptions: { columns: ":not(:last-child)" },
+            },
+            {
+              extend: "pdfHtml5",
+              className: "btn btn-danger btn-sm  ",
+              exportOptions: { columns: ":not(:last-child)" },
+            },
+          ],
+        },
+      },
+    });
+  });
+</script>
+{% endblock %}

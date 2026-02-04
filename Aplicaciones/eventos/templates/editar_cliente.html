@@ -1,0 +1,110 @@
+{% extends 'plantilla.html' %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-lg border-0 mt-4">
+      <div class="card-header bg-primary text-white text-center">
+        <h4 class="mb-0 text-white">
+          <i class="bi bi-person-plus text-white"></i> Editar Cliente 
+        </h4>
+      </div>
+      <div class="card-body p-4">
+        <form
+          action="{% url 'actualizarCliente' %}"
+          method="POST"
+          id="form_editarcliente"
+        >
+          {% csrf_token %}
+          <input type="hidden" name="id" value="{{ clientes.id }}" />
+          <div class="mb-3">
+            <label class="form-label font-weight-bold">Nombre Completo:</label>
+            <input
+              type="text"
+              name="nombre"
+              class="form-control"
+              placeholder="Ej: Juan Pérez"
+              id="nombre"
+              value="{{ clientes.nombre }}"
+            />
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label font-weight-bold">Email:</label>
+              <input
+                type="email"
+                name="email"
+                class="form-control"
+                placeholder="usuario@correo.com"
+                id="email"
+                value="{{ clientes.email }}"
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label font-weight-bold">Teléfono:</label>
+              <input
+                type="text"
+                name="telefono"
+                class="form-control"
+                placeholder="0987654321"
+                id="telefono"
+                value="{{ clientes.telefono }}"
+              />
+            </div>
+          </div>
+
+          <div class="d-grid gap-2 mt-3">
+            <button type="submit" class="btn btn-primary">
+              actualizar Cliente
+            </button>
+            <a
+              href="{% url 'listarClientes' %}"
+              class="btn btn-outline-secondary"
+              >Regresar</a
+            >
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+  $(document).ready(function () {
+    $("#form_editarcliente").validate({
+      rules: {
+        nombre: {
+          required: true,
+          minlength: 3,
+        },
+        email: {
+          required: true,
+          email: true,
+        },
+        telefono: {
+          required: true,
+          digits: true,
+          minlength: 10,
+          maxlength: 10,
+        },
+      },
+      messages: {
+        nombre: {
+          required: "Por favor, ingrese el nombre del cliente.",
+          minlength: "El nombre debe tener al menos 3 caracteres.",
+        },
+        email: {
+          required: "El correo electrónico es obligatorio.",
+          email: "Ingrese un formato de correo válido (ej: cliente@gmail.com).",
+        },
+        telefono: {
+          required: "El número de teléfono es obligatorio.",
+          digits: "Solo se permiten números.",
+          minlength: "El número debe tener 10 dígitos.",
+          maxlength: "No puede exceder los 10 dígitos.",
+        },
+      },
+  
+    });
+  });
+</script>
+{% endblock %}
