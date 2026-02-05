@@ -56,37 +56,37 @@
     </tbody>
   </table>
 </main>
-{% endblock %} {% block scripts %}
+{% endblock %} 
+
+{% block scripts %}
 <script>
-  $(document).ready(function () {
-    new DataTable("#tabla_eventos", {
-      layout: {
-        topStart: {
-          buttons: [
+$(document).ready(function () {
+    $('#tabla_eventos').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
             {
-              extend: "copyHtml5",
-              className: "btn btn-secondary btn-sm mr-2",
-              exportOptions: { columns: ":not(:last-child)" },
+                extend: 'copy',
+                className: 'btn btn-secondary btn-sm',
+                exportOptions: { columns: ':not(:last-child)' }
             },
             {
-              extend: "excelHtml5",
-              className: "btn btn-success btn-sm mr-2 ",
-              exportOptions: { columns: ":not(:last-child)" },
+                extend: 'excel',
+                className: 'btn btn-success btn-sm',
+                exportOptions: { columns: ':not(:last-child)' }
             },
             {
-              extend: "csvHtml5",
-              className: "btn btn-info btn-sm mr-2",
-              exportOptions: { columns: ":not(:last-child)" },
+                extend: 'csv',
+                className: 'btn btn-info btn-sm',
+                exportOptions: { columns: ':not(:last-child)' }
             },
             {
-              extend: "pdfHtml5",
-              className: "btn btn-danger btn-sm  ",
-              exportOptions: { columns: ":not(:last-child)" },
-            },
-          ],
-        },
-      },
+                extend: 'pdf',
+                className: 'btn btn-danger btn-sm',
+                exportOptions: { columns: ':not(:last-child)' }
+            }
+        ],
+        lengthChange: false
     });
-  });
+});
 </script>
 {% endblock %}
