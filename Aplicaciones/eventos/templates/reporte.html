@@ -45,39 +45,38 @@
       </tbody>
     </table>
 </main>
-    {% endblock %} {% block scripts %}
+    {% endblock %} 
+    
+    {% block scripts %}
     <script>
       $(document).ready(function () {
-        new DataTable("#tabla_reporte", {
-          layout: {
-            topStart: {
-              buttons: [
-                {
-                  extend: "copyHtml5",
-                  className: "btn btn-secondary btn-sm mr-2",
-                  
-                },
-                {
-                  extend: "excelHtml5",
-                  className: "btn btn-success btn-sm mr-2 ",
-                  
-                },
-                {
-                  extend: "csvHtml5",
-                  className: "btn btn-info btn-sm mr-2",
-                  
-                },
-                {
-                  extend: "pdfHtml5",
-                  className: "btn btn-danger btn-sm  ",
-                  
-                },
-              ],
+        $('#tabla_reporte').DataTable({
+          dom: 'Bfrtip',
+          buttons: [
+            {
+              extend: 'copy',
+              className: 'btn btn-secondary btn-sm'
             },
-          },
+            {
+              extend: 'excel',
+              className: 'btn btn-success btn-sm'
+            },
+            {
+              extend: 'csv',
+              className: 'btn btn-info btn-sm'
+            },
+            {
+              extend: 'pdf',
+              className: 'btn btn-danger btn-sm'
+            }
+          ],
+          language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+          }
         });
       });
     </script>
     {% endblock %}
+
   </div>
 </div>
