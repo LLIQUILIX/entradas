@@ -118,7 +118,8 @@ USE_TZ = True
 
 import os
 STATIC_URL = '/static/'
-STATICFILES_DIRS=(os.path.join(BASE_DIR,'entradas/static')),
+STATICFILES_DIRS= [ BASE_DIR / 'static' ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -138,4 +139,4 @@ EMAIL_HOST_PASSWORD = 'dvmz kjfo wwcw csbm'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'login'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+
